@@ -429,6 +429,12 @@ watch(focusedMappableInput, (curr) => {
 		curr ? 300 : 150,
 	);
 });
+
+const adjustColumn = ref<number | undefined>();
+
+function handleClickAdjustButton(column: number) {
+	adjustColumn.value = adjustColumn.value === column ? undefined : column;
+}
 </script>
 
 <template>
@@ -439,6 +445,7 @@ watch(focusedMappableInput, (curr) => {
 				[$style.highlight]: highlight,
 				[$style.lightHeader]: headerBgColor === 'light',
 				[$style.compact]: props.compact,
+				[$style.hasAdjustColumn]: adjustColumn !== undefined,
 			},
 		]"
 	>
@@ -508,7 +515,13 @@ watch(focusedMappableInput, (curr) => {
 					<th v-if="tableData.metadata.hasExecutionIds" :class="$style.executionLinkRowHeader">
 						<!-- column for execution link -->
 					</th>
-					<th v-for="(column, i) in tableData.columns || []" :key="column">
+					<th
+						v-for="(column, i) in tableData.columns || []"
+						:key="column"
+						:class="{
+							[$style.isAdjustColumn]: adjustColumn === i,
+						}"
+					>
 						<N8nTooltip placement="bottom-start" :disabled="!mappingEnabled" :show-after="1000">
 							<template #content>
 								<div>
@@ -545,6 +558,14 @@ watch(focusedMappableInput, (curr) => {
 										<div :class="$style.dragButton">
 											<font-awesome-icon icon="grip-vertical" />
 										</div>
+										<N8nIconButton
+											:class="$style.adjustButton"
+											type="tertiary"
+											size="xmini"
+											text
+											icon="expand"
+											@click="handleClickAdjustButton(i)"
+										/>
 									</div>
 								</template>
 							</Draggable>
@@ -634,7 +655,11 @@ watch(focusedMappableInput, (curr) => {
 						:key="index2"
 						:data-row="index1"
 						:data-col="index2"
-						:class="hasJsonInColumn(index2) ? $style.minColWidth : $style.limitColWidth"
+						:class="{
+							[$style.minColWidth]: hasJsonInColumn(index2),
+							[$style.limitColWidth]: !hasJsonInColumn(index2),
+							[$style.isAdjustColumn]: adjustColumn === index2,
+						}"
 						@mouseenter="onMouseEnterCell"
 						@mouseleave="onMouseLeaveCell"
 					>
@@ -733,6 +758,17 @@ watch(focusedMappableInput, (curr) => {
 		overflow-wrap: break-word;
 		white-space: pre-wrap;
 		vertical-align: top;
+
+		.hasAdjustColumn &:not(.isAdjustColumn) {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			& :global(.n8n-tree) {
+				height: 20px;
+				overflow: hidden;
+			}
+		}
 	}
 
 	td:first-child,
@@ -889,5 +925,18 @@ watch(focusedMappableInput, (curr) => {
 
 .executionLinkRowHeader {
 	width: var(--spacing-m);
+}
+
+.adjustButton {
+	span {
+		flex-shrink: 0;
+	}
+
+	visibility: hidden;
+
+	.isAdjustColumn &,
+	th:hover & {
+		visibility: visible;
+	}
 }
 </style>
