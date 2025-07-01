@@ -9,8 +9,8 @@
   "packageManager": "pnpm@10.12.1",
   "scripts": {
   "preinstall": "",
-  "build": "turbo run build",               
-  "build:all": "turbo run build",        
+  "build": "tsc -b packages",
+"build:all": "turbo run build --filter=...",        
   "build:backend": "turbo run build:backend",
   "build:frontend": "turbo run build:frontend",
   "build:nodes": "turbo run build:nodes",
