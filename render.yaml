@@ -2,23 +2,22 @@ services:
   - type: web
     name: n8n
     env: docker
+    plan: free
+    region: oregon
     repo: https://github.com/Praveen-pk-pro/n8n
     branch: master
-    buildCommand: "npm install && npm run build"
+    dockerfilePath: ./Dockerfile
+    autoDeploy: false
     envVars:
       - key: N8N_BASIC_AUTH_ACTIVE
-        value: "true"
+        value: true
       - key: N8N_BASIC_AUTH_USER
-        value: "admin"
+        value: pravo
       - key: N8N_BASIC_AUTH_PASSWORD
-        value: "timeisgolddamapla"
+        value: timeisgolddamapla
+      - key: GENERIC_TIMEZONE
+        value: Asia/Kolkata
       - key: N8N_HOST
-        value: "n8n.onrender.com"
+        value: 0.0.0.0
       - key: N8N_PORT
-        value: "5678"
-      - key: WEBHOOK_TUNNEL_URL
-        value: "https://n8n.onrender.com"
-      - key: EXECUTIONS_MODE
-        value: "regular"
-    autoDeploy: true
-    plan: free
+        value: 5678
