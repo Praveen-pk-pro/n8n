@@ -9,7 +9,7 @@
   "packageManager": "pnpm@10.12.1",
   "scripts": {
   "preinstall": "",
-  "build": "tsc -b packages",               
+  "build": "turbo run build",               
   "build:all": "turbo run build",        
   "build:backend": "turbo run build:backend",
   "build:frontend": "turbo run build:frontend",
