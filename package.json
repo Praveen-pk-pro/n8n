@@ -9,7 +9,7 @@
   "packageManager": "pnpm@10.12.1",
   "scripts": {
     "preinstall": "",
-    "build": "turbo run build",           // ✅ use this only
+    "build": "turbo run build",           
     "build:n8n": "node scripts/build-n8n.mjs",
     "build:docker": "node scripts/build-n8n.mjs && node scripts/dockerize-n8n.mjs",
     "build:docker:scan": "node scripts/build-n8n.mjs && node scripts/dockerize-n8n.mjs && node scripts/scan-n8n-image.mjs",
