@@ -1,11 +1,16 @@
 FROM node:18
 
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Set working directory
 WORKDIR /app
 
+# Copy all files
 COPY . .
 
-# Use install instead of ci
-RUN npm install
+# Install dependencies using pnpm
+RUN pnpm install
 
-CMD ["npx", "n8n", "start"]
-
+# Start n8n
+CMD ["pnpm", "n8n", "start"]
