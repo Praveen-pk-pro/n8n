@@ -1,17 +1,22 @@
 FROM node:18
 
-# Install pnpm globally
-RUN npm install -g pnpm
-
 # Set working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy all files
+# Copy package.json and lockfile
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies safely
+RUN npm install -g pnpm && \
+    rm -rf node_modules && \
+    pnpm store prune && \
+    pnpm install --legacy-peer-deps
+
+# Copy remaining files
 COPY . .
 
-# Install dependencies using pnpm
-RUN rm -rf node_modules && pnpm store prune && pnpm install --legacy-peer-deps
+# Expose port if needed (default for n8n)
+EXPOSE 5678
 
-
-# Start n8n
-CMD ["pnpm", "n8n", "start"]
+# Start the app (customize if different)
+CMD ["pnpm", "start"]
