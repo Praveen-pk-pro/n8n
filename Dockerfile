@@ -8,7 +8,7 @@ RUN npm install -g pnpm
 RUN rm -rf node_modules && pnpm store prune && pnpm install --strict-peer-dependencies=false
 
 # ✅ ADD THIS LINE to compile TypeScript to dist/
-RUN pnpm run build
+RUN pnpm run build:all
 
 COPY . .
 
