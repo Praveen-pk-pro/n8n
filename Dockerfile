@@ -1,9 +1,14 @@
-FROM node:18-alpine
+# ✅ Use a Node version compatible with n8n
+FROM node:18
 
-WORKDIR /data
+# 📁 Set the working directory inside the container
+WORKDIR /app
 
+# 📦 Copy all files from your repo into the container
 COPY . .
 
-RUN npm ci && npm run build
+# 🧱 Install dependencies from package-lock.json
+RUN npm ci
 
+# 🚀 Start n8n
 CMD ["npx", "n8n", "start"]
