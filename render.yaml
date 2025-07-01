@@ -4,7 +4,7 @@ services:
     env: docker
     repo: https://github.com/Praveen-pk-pro/n8n
     branch: master
-    buildCommand: ""
+    buildCommand: "npm install && npm run build"
     envVars:
       - key: N8N_BASIC_AUTH_ACTIVE
         value: "true"
