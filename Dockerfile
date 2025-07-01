@@ -12,6 +12,5 @@ COPY . .
 # Install dependencies using pnpm
 RUN rm -rf node_modules && pnpm store prune && pnpm install --legacy-peer-deps
 
-
 # Start n8n
 CMD ["pnpm", "n8n", "start"]
