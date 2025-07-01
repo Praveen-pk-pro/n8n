@@ -8,3 +8,4 @@ COPY . .
 RUN npm install
 
 CMD ["npx", "n8n", "start"]
+
